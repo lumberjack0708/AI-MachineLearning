@@ -104,3 +104,50 @@ plt.tight_layout(rect=[0, 0.15, 1, 0.95])
 plt.suptitle('ReLU vs Leaky ReLU 激活函數比較', fontsize=18, y=0.98)
 plt.savefig('relu_vs_leaky_relu.png', dpi=300, bbox_inches='tight')
 plt.show()
+
+# 創建一個簡單的比較表格
+model_types = ['CNN', '深層前饋網絡', '自編碼器', 'GAN', '淺層網絡', 'RNN/LSTM']
+relu_scores = [5, 5, 4, 4, 3, 2]  # 5分最適合，1分最不適合
+sigmoid_scores = [2, 2, 3, 2, 4, 4]
+tanh_scores = [3, 3, 3, 3, 3, 5]
+leaky_scores = [5, 5, 4, 5, 3, 3]
+
+# 設置圖表
+fig, ax = plt.subplots(figsize=(12, 8))
+bar_width = 0.2
+index = np.arange(len(model_types))
+
+# 繪製柱狀圖
+bar1 = ax.bar(index, relu_scores, bar_width, label='ReLU', color='blue', alpha=0.7)
+bar2 = ax.bar(index + bar_width, leaky_scores, bar_width, label='Leaky ReLU', color='green', alpha=0.7)
+bar3 = ax.bar(index + 2*bar_width, tanh_scores, bar_width, label='Tanh', color='red', alpha=0.7)
+bar4 = ax.bar(index + 3*bar_width, sigmoid_scores, bar_width, label='Sigmoid', color='purple', alpha=0.7)
+
+# 添加標籤和標題
+ax.set_xlabel('神經網絡模型類型', fontsize=14)
+ax.set_ylabel('適用程度 (5最適合)', fontsize=14)
+ax.set_title('不同激活函數對各類神經網絡的適用性', fontsize=16)
+ax.set_xticks(index + 1.5*bar_width)
+ax.set_xticklabels(model_types, fontsize=12)
+ax.legend(fontsize=12)
+
+ax.grid(True, linestyle='--', alpha=0.7)
+ax.set_ylim(0, 6)
+
+# 添加說明文字
+text = """ReLU 最適合的應用場景:
+1. 卷積神經網絡 (CNN) - 圖像識別、物體檢測等
+2. 深層前饋網絡 - 加速收斂，避免梯度消失
+3. 需要稀疏表示的問題 - 提高計算效率
+4. 大型數據集訓練 - 訓練速度快
+
+不適合的場景:
+1. 遞歸神經網絡 (RNN/LSTM) - 容易出現梯度問題
+2. 對負值敏感的任務 - 如時間序列預測"""
+
+plt.figtext(0.15, 0.02, text, fontsize=12, 
+           bbox=dict(facecolor='lightyellow', alpha=0.5, boxstyle='round,pad=1'))
+
+plt.tight_layout(rect=[0, 0.15, 1, 0.95])
+plt.savefig('relu_applications.png', dpi=300, bbox_inches='tight')
+plt.show()
